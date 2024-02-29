@@ -1,0 +1,22 @@
+<main
+  class="h-full sm:h-screen w-full bg-base-200 py-16 flex justify-between md:block"
+>
+  <div class="flex md:justify-center justify-start">
+    <ul class="steps steps-vertical md:steps-horizontal">
+      <li class="step step-neutral step-success"></li>
+      <li class="step step-neutral"></li>
+      <li class="step step-neutral"></li>
+      <li class="step step-neutral"></li>
+      <li class="step step-neutral"></li>
+
+      <li data-content="✓" class="step step-neutral"></li>
+    </ul>
+  </div>
+  <div class="flex mx-auto h-full w-100 justify-center">
+    <app-lesson-one
+      [question]="unitTest[0].question"
+      [input]="unitTest[0].input"
+      [output]="unitTest[0].output"
+    ></app-lesson-one>
+  </div>
+</main>

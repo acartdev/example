@@ -1,0 +1,112 @@
+<main class="flex h-screen w-100 items-center justify-center bg-base-200 px-5">
+  <div
+    class="rounded-xl justify-start items-center p-8 shadow-xl bg-base-100 flex flex-col w-96 h-auto text-white"
+  >
+    <mat-icon class="scale-[3] my-5">integration_instructions</mat-icon>
+    <p class="text-4xl font-bold font-[th-font]">สมัครสมาชิก</p>
+    <p class="text-md font-light font-[th-font] tracking-widest">
+      สำหรับทำแบบทดสอบDeveloper
+    </p>
+    <form
+      [formGroup]="regisForm"
+      (ngSubmit)="onSubmit()"
+      class="my-3 text-black w-full h-full"
+    >
+      <label class="form-control w-full max-w-xs mb-2.5">
+        <div class="label">
+          <span class="label-text">ชื่อ-นามสกุล :</span>
+        </div>
+        <input
+          type="text"
+          formControlName="name"
+          placeholder="กรุณากรอกชื่อ-นามสกุล"
+          class="input bg-white input-sm w-full"
+          [ngClass]="{
+            'input-error':
+              regisForm.get('name')?.invalid &&
+              (regisForm.get('name')?.touched || regisForm.get('name')?.dirty)
+          }"
+        />
+        <div class="label">
+          <span
+            *ngIf="regisForm.get('name')?.errors?.['required'] && (regisForm.get('name')?.touched || regisForm.get('name')?.dirty)"
+            class="label-text-alt text-error"
+            >กรุณากรอกชื่อ-นามสกุล!</span
+          >
+        </div>
+      </label>
+      <label class="form-control w-full max-w-xs mb-2.5">
+        <div class="label">
+          <span class="label-text">อีเมล :</span>
+        </div>
+        <input
+          formControlName="email"
+          type="email"
+          placeholder="example@email.com"
+          class="input bg-white input-sm w-full max-w-xs mb-2.5"
+          [ngClass]="{
+            'input-error':
+              regisForm.get('email')?.invalid &&
+              (regisForm.get('email')?.touched || regisForm.get('email')?.dirty)
+          }"
+        />
+        <div class="label">
+          <span
+            *ngIf="regisForm.get('email')?.errors?.['required'] && (regisForm.get('email')?.touched || regisForm.get('email')?.dirty)"
+            class="label-text-alt text-error"
+            >กรุณากรอกอีเมล!</span
+          >
+          <span
+            *ngIf="regisForm.get('email')?.errors?.['email'] && (regisForm.get('email')?.touched || regisForm.get('email')?.dirty)"
+            class="label-text-alt text-error"
+            >รูปแบบอีเมลไม่ถูกต้อง!</span
+          >
+        </div>
+      </label>
+      <label class="form-control w-full max-w-xs mb-6">
+        <div class="label">
+          <span class="label-text">รหัสผ่าน :</span>
+        </div>
+        <div class="relative">
+          <input
+            formControlName="password"
+            [type]="passwordType"
+            placeholder="กรุณารหัสผ่าน"
+            class="input bg-white input-sm w-full max-w-xs"
+            [ngClass]="{
+              'input-error':
+                regisForm.get('password')?.invalid &&
+                (regisForm.get('password')?.touched ||
+                  regisForm.get('password')?.dirty)
+            }"
+          />
+
+          <button (click)="eyeToggle($event)" class="absolute right-2 top-1.5">
+            <mat-icon>{{ eyeIcon }}</mat-icon>
+          </button>
+        </div>
+        <div class="label">
+          <span
+            *ngIf="regisForm.get('password')?.errors?.['required'] && (regisForm.get('password')?.touched || regisForm.get('password')?.dirty)"
+            class="label-text-alt text-error"
+            >กรุณากรอกรหัสผ่าน!</span
+          >
+        </div>
+      </label>
+      <button
+        type="submit"
+        [disabled]="regisForm.invalid"
+        routerLink="/desc"
+        class="btn btn-info btn-sm text-xl w-full font-[th-font] text-white"
+      >
+        สมัครสมาชิก
+      </button>
+    </form>
+    <p class="text-white mt-5 text-wrap">
+      หากมีบัญชีผู้ใช้อยู่แล้ว?
+      <a routerLink="/" class="text-primary underline underline-offset-1"
+        >เข้าสู่ระบบ</a
+      >
+    </p>
+  </div>
+</main>
