@@ -1,18 +1,39 @@
-<select
-  (change)="getLang($event.target)"
-  class="select select-bordered bg-white select-sm w-full max-w-xs mb-3"
->
-  <option selected value="JavaScript">JavaScript</option>
-  <option value="TypeScript">TypeScript</option>
-  <option value="cpp">C++</option>
-  <option value="python">Python</option>
-</select>
-<div class="flex flex-col">
-  <div #codemirror class="w-full"></div>
-  <div class="flex flex-row-reverse gap-4 mt-3">
-    <button (click)="showValue($event)" class="btn btn-sm btn-info">
+<div class="flex flex-col items-center max-w-96 mx-auto">
+  <select
+    *ngIf="input"
+    (change)="getLang($event.target)"
+    class="select select-bordered bg-white select-sm w-full self-start max-w-56 mb-3"
+  >
+    <option selected value="JavaScript">JavaScript</option>
+    <option value="TypeScript">TypeScript</option>
+    <option value="Cpp">C++</option>
+    <option value="Python">Python</option>
+  </select>
+  <div
+    #codemirror
+    [ngClass]="{ hidden: input == '' }"
+    class="w-full md:max-w-96 lg:max-w-xl sm:max-w-full max-w-56"
+  ></div>
+  <textarea
+    *ngIf="lessId === 3 || lessId === 5"
+    [(ngModel)]="text"
+    class="textarea textarea-bordered bg-white w-full sm:w-96 mx-auto text-black"
+    placeholder="เขียนคำตอบ..."
+  ></textarea>
+  <div
+    class="flex flex-row-reverse justify-end md:justify-start w-full gap-4 mt-3"
+  >
+    <button
+      (click)="showValue($event, 'next')"
+      class="btn btn-sm btn-info text-white"
+    >
       ถัดไป
     </button>
-    <button class="btn btn-warning btn-sm">ย้อนกลับ</button>
+    <button
+      (click)="showValue($event, 'prev')"
+      class="btn btn-warning btn-sm text-white"
+    >
+      ย้อนกลับ
+    </button>
   </div>
 </div>

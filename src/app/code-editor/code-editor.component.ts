@@ -1,29 +1,49 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { cpp } from '@codemirror/lang-cpp';
 import { javascript } from '@codemirror/lang-javascript';
 import { python } from '@codemirror/lang-python';
 import { StateEffect } from '@codemirror/state';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { EditorView, basicSetup } from 'codemirror';
+import { LessonType } from './lessType';
+import { NgClass, NgIf } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-code-editor',
   standalone: true,
-  imports: [],
+  imports: [NgIf, NgClass, FormsModule],
   templateUrl: './code-editor.component.html',
   styleUrl: './code-editor.component.css',
 })
 export class CodeEditorComponent {
   @ViewChild('codemirror', { static: true }) codeMirrorElement!: ElementRef;
-
+  @Output() lesson = new EventEmitter<LessonType>();
+  @Output() perpage = new EventEmitter<string>();
+  @Input() lessId!: number;
+  @Input() input!: string;
+  @Input() oldVal?: LessonType;
   editor!: EditorView;
+  text!: string;
   lang: any;
+  langValue: string = 'JavaScript';
   ngOnInit(): void {
+    this.text = this.oldVal?.text ? this.oldVal.text : '';
+  }
+  ngAfterViewInit(): void {
     const fixedHeightEditor = EditorView.theme({
       '&': { height: '17rem', width: '100%' },
       '.cm-scroller': { overflow: 'auto' },
     });
     this.editor = new EditorView({
+      doc: this.oldVal?.text ? this.oldVal.text : '',
       extensions: [
         basicSetup,
         this.lang ? this.lang : javascript(),
@@ -35,17 +55,18 @@ export class CodeEditorComponent {
   }
   getLang(e: any) {
     const fixedHeightEditor = EditorView.theme({
-      '&': { height: '17rem', width: '100%' },
+      '&': { height: '17rem' },
       '.cm-scroller': { overflow: 'auto' },
     });
+    this.langValue = e.value;
     switch (e.value) {
       case 'JavaSctipt':
         this.lang = javascript();
         break;
-      case 'cpp':
+      case 'Cpp':
         this.lang = cpp();
         break;
-      case 'python':
+      case 'Python':
         this.lang = python();
         break;
       case 'TypeScript':
@@ -58,8 +79,7 @@ export class CodeEditorComponent {
     }
 
     const toggle = (view: EditorView) => {
-      let transection;
-      if (e.value == 'cpp') {
+      if (e.value == 'Cpp') {
         view.dispatch({
           changes: {
             from: 0,
@@ -71,13 +91,6 @@ int main() {
 }`,
           },
         });
-        //         transection = view.state.replaceSelection(`#include <iostream>
-        // int main() {
-        //   std::cout << "Hello, World!" << std::endl;
-        //   return 0;
-        // }`);
-        //         let update = view.state.update(transection);
-        //         view.update([update]);
       } else {
         view.dispatch({
           changes: { from: 0, to: view.state.doc.length, insert: '' },
@@ -98,9 +111,15 @@ int main() {
     }
     return ''; // Handle potential errors or editor not initialized
   }
-  showValue(e: MouseEvent) {
+  showValue(e: MouseEvent, action: string) {
     e.preventDefault();
-    const code = this.getValue();
-    console.log(code);
+    const code: LessonType = {
+      lessId: this.lessId,
+      text:
+        this.lessId === 3 || this.lessId === 5 ? this.text : this.getValue(),
+      lang: this.lessId === 3 || this.lessId === 5 ? 'Text' : this.langValue,
+    };
+    this.lesson.emit(code);
+    this.perpage.emit(action);
   }
 }
