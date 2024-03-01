@@ -1,22 +1,67 @@
 <main
   class="h-full sm:h-screen w-full bg-base-200 py-16 flex justify-between md:block"
 >
-  <div class="flex md:justify-center justify-start">
+  <div class="flex md:justify-center justify-start sm:px-10">
     <ul class="steps steps-vertical md:steps-horizontal">
-      <li class="step step-neutral step-success"></li>
-      <li class="step step-neutral"></li>
-      <li class="step step-neutral"></li>
-      <li class="step step-neutral"></li>
-      <li class="step step-neutral"></li>
+      <li
+        data-content="1"
+        class="step step-neutral"
+        [ngClass]="{ 'step-success': count > 0 }"
+      ></li>
+      <li
+        class="step step-neutral"
+        [ngClass]="{ 'step-success': count > 1 }"
+      ></li>
+      <li
+        class="step step-neutral"
+        [ngClass]="{ 'step-success': count > 2 }"
+      ></li>
+      <li
+        class="step step-neutral"
+        [ngClass]="{ 'step-success': count > 3 }"
+      ></li>
+      <li
+        class="step step-neutral"
+        [ngClass]="{ 'step-success': count > 4 }"
+      ></li>
 
-      <li data-content="✓" class="step step-neutral"></li>
+      <li
+        data-content="✓"
+        class="step step-neutral"
+        [ngClass]="{ 'step-success': count > 5 }"
+      ></li>
     </ul>
   </div>
   <div class="flex mx-auto h-full w-100 justify-center">
+    @for( items of unitTest;track items){
     <app-lesson-one
-      [question]="unitTest[0].question"
-      [input]="unitTest[0].input"
-      [output]="unitTest[0].output"
+      *ngIf="items.lessId == count && count < 6"
+      (lessonData)="saveDataToStore($event)"
+      (perPage)="onChildClick($event)"
+      [lessId]="items.lessId"
+      [question]="items.question"
+      [oldValue]="getLessonId(items.lessId)"
+      [input]="items.input"
+      [output]="items.output"
     ></app-lesson-one>
+    }
+    <app-finish-page
+      (repage)="rePage($event)"
+      *ngIf="count === 6"
+    ></app-finish-page>
   </div>
 </main>
+<dialog id="my_modal_5" class="modal modal-center sm:modal-middle">
+  <div class="modal-box bg-white">
+    <div class="flex w-full justify-center py-10 mb-5">
+      <mat-icon class="scale-[5] mx-auto text-success">check_circle</mat-icon>
+    </div>
+    <p class="font-bold text-2xl text-black text-center">ยืนยันส่งคำตอบ</p>
+    <div class="modal-action w-full flex justify-center">
+      <form method="dialog ">
+        <!-- if there is a button in form, it will close the modal -->
+        <button class="btn btn-info text-white">ยืนยัน</button>
+      </form>
+    </div>
+  </div>
+</dialog>
