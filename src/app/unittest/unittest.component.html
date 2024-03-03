@@ -36,22 +36,29 @@
     </ul>
   </div>
   <div class="flex mx-auto h-full w-100 justify-center">
-    @for( items of unitTest;track items){
+    @if(lessonValue){ @for( items of unitTest;track items){
+
     <app-lesson-one
       *ngIf="items.lessId == count && count < 6"
       (lessonData)="saveDataToStore($event)"
+      [user_email]="user_email"
+      [readonly]="currentPath === 'detail' ? true : false"
       (perPage)="onChildClick($event)"
       [lessId]="items.lessId"
       [question]="items.question"
-      [oldValue]="getLessonId(items.lessId)"
+      [oldValues]="findData(items.lessId)"
       [input]="items.input"
       [output]="items.output"
     ></app-lesson-one>
-    }
+    } }
+    <app-detail-exit
+      *ngIf="count === 6 && currentPath === 'detail'"
+      (repage)="rePage($event)"
+    ></app-detail-exit>
     <app-finish-page
       (subMit)="onSubmit()"
       (repage)="rePage($event)"
-      *ngIf="count === 6"
+      *ngIf="count === 6 && currentPath !== 'detail'"
     ></app-finish-page>
   </div>
 </main>

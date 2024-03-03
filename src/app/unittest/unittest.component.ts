@@ -1,5 +1,10 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import {
+  ActivatedRoute,
+  RouterOutlet,
+  UrlSegment,
+  UrlTree,
+} from '@angular/router';
 import { LessonOneComponent } from '../lesson-one/lesson-one.component';
 import { UnitType } from './unittestType';
 import { NgClass, NgFor, NgIf } from '@angular/common';
@@ -8,8 +13,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { LessonType } from '../code-editor/lessType';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../guards/auth.service';
+import { DetailExitComponent } from '../detail-exit/detail-exit.component';
 @Component({
   selector: 'app-unittest',
+  providers: [],
   standalone: true,
   imports: [
     RouterOutlet,
@@ -20,19 +27,26 @@ import { AuthService } from '../guards/auth.service';
     NgClass,
     MatIconModule,
     ReactiveFormsModule,
+    DetailExitComponent,
   ],
 
   templateUrl: './unittest.component.html',
   styleUrl: './unittest.component.css',
 })
 export class UnittestComponent {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private router: ActivatedRoute,
+    private loaction: ActivatedRoute
+  ) {}
   @ViewChild('my_modal_5', { static: true }) dialog!: ElementRef;
-  @Input()
+  email?: string | null;
   isLoad: boolean = false;
   lesson?: LessonType;
+  user_email!: string;
   count: number = 1;
-  lessonValue: LessonType[] = [];
+  lessonValue?: LessonType[] = [];
+  currentPath?: string;
   unitTest: UnitType[] = [
     {
       lessId: 1,
@@ -86,32 +100,65 @@ export class UnittestComponent {
     },
   ];
   onChildClick(action: string) {
+    // console.log(this.count);
+
     if (action === 'next') {
       this.count += 1;
+      if (this.count >= 6) {
+        this.count = 6;
+      }
     } else {
       this.count -= 1;
+      if (this.count <= 1) {
+        this.count = 1;
+      }
     }
   }
+  async ngOnInit(): Promise<void> {
+    this.currentPath = this.loaction.snapshot.url[0].path;
+    console.log(this.currentPath);
 
+    await this.getEmail();
+    this.isLoad = true;
+    this.router.params.subscribe((pramsId) => (this.email = pramsId['email']));
+    if (this.email) {
+      this.lessonValue = await this.authService
+        .getLessonDetail(this.email)
+        .then((value) => {
+          return value;
+        });
+    }
+    // console.log(this.lessonValue);
+    this.count = 1;
+    this.isLoad = !this.isLoad;
+  }
+  async getEmail(): Promise<void> {
+    const token = this.authService.getToken();
+    if (!token) return;
+    const profile: any = await this.authService
+      .getProfile(token)
+      .then((value) => value?.email)
+      .catch((err) => null);
+    this.user_email = profile;
+  }
   rePage(page: number) {
     this.count = page;
     // console.log(this.count);
   }
-  getLessonId(id: number): LessonType {
-    const index = this.lessonValue.findIndex((obj) => obj.lesson_id == id);
-    return this.lessonValue[index];
-  }
   saveDataToStore(data: LessonType) {
-    const index = this.lessonValue.findIndex(
+    const index = this.lessonValue!.findIndex(
       (obj) => obj.lesson_id == data.lesson_id
     );
     if (index > -1) {
-      this.lessonValue[index] = data;
+      this.lessonValue![index] = data;
     } else {
-      this.lessonValue.push(data);
+      this.lessonValue?.push(data);
     }
 
-    console.log(this.lessonValue);
+    // console.log(this.lessonValue);
+  }
+  findData(id: number): LessonType | undefined {
+    return this.lessonValue?.find((value) => value.lesson_id == id);
   }
   checkOut() {
     this.dialog.nativeElement.style.display = 'none';
@@ -119,10 +166,10 @@ export class UnittestComponent {
   }
   async onSubmit(): Promise<void> {
     this.isLoad = true;
-    const res = await this.authService.sendLesson(this.lessonValue);
+    const res = await this.authService.sendLesson(this.lessonValue!);
     console.log(res);
     const updateStatus = await this.authService.updateStatus(
-      this.lessonValue[0].user_email!
+      this.lessonValue![0].user_email!
     );
     setTimeout(() => {
       this.isLoad = !this.isLoad;

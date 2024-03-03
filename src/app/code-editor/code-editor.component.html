@@ -1,13 +1,40 @@
+<div *ngIf="isLoad" class="w-full h-screen grid place-content-center">
+  <span class="loading loading-infinity loading-lg"></span>
+</div>
 <div class="flex flex-col items-center max-w-96 mx-auto">
   <select
     *ngIf="input"
     (change)="getLang($event.target)"
-    class="select select-bordered bg-white select-sm w-full self-start max-w-56 mb-3"
+    class="select bg-white select-sm w-full self-start max-w-56 mb-3"
   >
-    <option selected value="JavaScript">JavaScript</option>
-    <option value="TypeScript">TypeScript</option>
-    <option value="Cpp">C++</option>
-    <option value="Python">Python</option>
+    <option
+      [(disabled)]="readonly"
+      [selected]="!langValue || langValue === 'JavaScript'"
+      value="JavaScript"
+    >
+      JavaScript
+    </option>
+    <option
+      [(disabled)]="readonly"
+      value="TypeScript"
+      [selected]="langValue === 'TypeScript'"
+    >
+      TypeScript
+    </option>
+    <option
+      [(disabled)]="readonly"
+      value="Cpp"
+      [selected]="langValue === 'Cpp'"
+    >
+      C++
+    </option>
+    <option
+      [(disabled)]="readonly"
+      value="Python"
+      [selected]="langValue === 'Python'"
+    >
+      Python
+    </option>
   </select>
   <div
     #codemirror
@@ -16,6 +43,7 @@
   ></div>
   <textarea
     *ngIf="lessId === 3 || lessId === 5"
+    [readonly]="readonly"
     [(ngModel)]="text"
     class="textarea textarea-bordered bg-white w-full sm:w-96 mx-auto text-black"
     placeholder="เขียนคำตอบ..."

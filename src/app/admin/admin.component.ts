@@ -63,8 +63,11 @@ export class AdminComponent {
       })
       .catch(() => null);
     this.sum = this.sum / len;
-    console.log(this.sum);
 
     this.isLoad = !this.isLoad;
+    console.log(this.lessonDetail);
+  }
+  checkOut() {
+    this.authService.checkOut();
   }
 }

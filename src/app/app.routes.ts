@@ -37,7 +37,12 @@ export const routes: Routes = [
     component: UnittestComponent,
     children: [{ path: '', component: LessonOneComponent }],
   },
-  { path: 'detail:email', component: UnittestComponent },
+  {
+    path: 'detail/:email',
+    component: UnittestComponent,
+    canActivate: [authGuard],
+    data: { requiredRole: 'admin' },
+  },
   {
     path: 'admin',
     component: AdminComponent,

@@ -64,6 +64,24 @@ export class AuthService {
         });
     });
   }
+  async getLessonDetail(email: string): Promise<LessonType[] > {
+    const headers: HttpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.getToken()}`,
+    });
+    return new Promise((resolve, reject) => {
+      return this.http
+        .get<LessonType[]>(`${environment.baseUrl}/lesson/${email}`, {
+          headers: headers,
+        })
+        .subscribe({
+          next: (value) => {
+            resolve(value);
+          },
+          error: (error: HttpErrorResponse) => reject(error.message),
+        });
+    });
+  }
   async sendLesson(lesson: LessonType[]): Promise<any> {
     const headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -87,7 +105,7 @@ export class AuthService {
     });
     return new Promise((resolve, reject) => {
       return this.http
-        .get<number | any>(`${environment.baseUrl}/lesson/${email}`, {
+        .get<number | any>(`${environment.baseUrl}/lesson/count/${email}`, {
           headers: headers,
         })
         .subscribe({
