@@ -15,6 +15,7 @@ import { EditorView, basicSetup } from 'codemirror';
 import { LessonType } from './lessType';
 import { NgClass, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../guards/auth.service';
 
 @Component({
   selector: 'app-code-editor',
@@ -24,6 +25,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './code-editor.component.css',
 })
 export class CodeEditorComponent {
+  constructor(private authService: AuthService) {}
   @ViewChild('codemirror', { static: true }) codeMirrorElement!: ElementRef;
   @Output() lesson = new EventEmitter<LessonType>();
   @Output() perpage = new EventEmitter<string>();
@@ -111,10 +113,17 @@ int main() {
     }
     return ''; // Handle potential errors or editor not initialized
   }
-  showValue(e: MouseEvent, action: string) {
+  async showValue(e: MouseEvent, action: string): Promise<void> {
     e.preventDefault();
+    const token = this.authService.getToken();
+    if (!token) return;
+    const profile: any = await this.authService
+      .getProfile(token)
+      .then((value) => value?.email)
+      .catch((err) => null);
     const code: LessonType = {
-      lessId: this.lessId,
+      user_email: profile,
+      less_id: this.lessId,
       text:
         this.lessId === 3 || this.lessId === 5 ? this.text : this.getValue(),
       lang: this.lessId === 3 || this.lessId === 5 ? 'Text' : this.langValue,

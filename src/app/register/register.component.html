@@ -1,4 +1,16 @@
-<main class="flex h-screen w-100 items-center justify-center bg-base-200 px-5">
+<div class="w-full h-screen grid place-content-center" *ngIf="isLoad">
+  <span class="loading loading-infinity loading-lg"></span>
+</div>
+<main
+  *ngIf="isLoad === false"
+  class="flex h-screen w-100 items-center justify-center bg-base-200 px-5"
+>
+  <div *ngIf="showToast" class="toast toast-top md:toast-middle toast-end">
+    <div class="alert alert-success text-white">
+      <mat-icon class="scale-[2]">check_circle</mat-icon>
+      <span class="text-xl">สมัครสมาชิกสำเร็จ</span>
+    </div>
+  </div>
   <div
     class="rounded-xl justify-start items-center p-8 shadow-xl bg-base-100 flex flex-col w-96 h-auto text-white"
   >
@@ -46,8 +58,10 @@
           class="input bg-white input-sm w-full max-w-xs mb-2.5"
           [ngClass]="{
             'input-error':
-              regisForm.get('email')?.invalid &&
-              (regisForm.get('email')?.touched || regisForm.get('email')?.dirty)
+              (regisForm.get('email')?.invalid &&
+                (regisForm.get('email')?.touched ||
+                  regisForm.get('email')?.dirty)) ||
+              resError?.errors
           }"
         />
         <div class="label">
@@ -56,6 +70,9 @@
             class="label-text-alt text-error"
             >กรุณากรอกอีเมล!</span
           >
+          <span *ngIf="resError?.errors" class="label-text-alt text-error">{{
+            resError?.message
+          }}</span>
           <span
             *ngIf="regisForm.get('email')?.errors?.['email'] && (regisForm.get('email')?.touched || regisForm.get('email')?.dirty)"
             class="label-text-alt text-error"
@@ -96,7 +113,6 @@
       <button
         type="submit"
         [disabled]="regisForm.invalid"
-        routerLink="/desc"
         class="btn btn-info btn-sm text-xl w-full font-[th-font] text-white"
       >
         สมัครสมาชิก

@@ -8,6 +8,7 @@ import { RegisterComponent } from './register/register.component';
 @Component({
   selector: 'app-root',
   standalone: true,
+  providers: [],
   imports: [
     RouterOutlet,
     LoginComponent,

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { LessonOneComponent } from '../lesson-one/lesson-one.component';
 import { UnitType } from './unittestType';
@@ -6,6 +6,8 @@ import { NgClass, NgFor, NgIf } from '@angular/common';
 import { FinishPageComponent } from '../finish-page/finish-page.component';
 import { MatIconModule } from '@angular/material/icon';
 import { LessonType } from '../code-editor/lessType';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from '../guards/auth.service';
 @Component({
   selector: 'app-unittest',
   standalone: true,
@@ -17,13 +19,18 @@ import { LessonType } from '../code-editor/lessType';
     FinishPageComponent,
     NgClass,
     MatIconModule,
+    ReactiveFormsModule,
   ],
 
   templateUrl: './unittest.component.html',
   styleUrl: './unittest.component.css',
 })
 export class UnittestComponent {
-  @Input() lesson?: LessonType;
+  constructor(private authService: AuthService) {}
+  @ViewChild('my_modal_5', { static: true }) dialog!: ElementRef;
+  @Input()
+  isLoad: boolean = false;
+  lesson?: LessonType;
   count: number = 1;
   lessonValue: LessonType[] = [];
   unitTest: UnitType[] = [
@@ -91,12 +98,12 @@ export class UnittestComponent {
     // console.log(this.count);
   }
   getLessonId(id: number): LessonType {
-    const index = this.lessonValue.findIndex((obj) => obj.lessId == id);
+    const index = this.lessonValue.findIndex((obj) => obj.less_id == id);
     return this.lessonValue[index];
   }
   saveDataToStore(data: LessonType) {
     const index = this.lessonValue.findIndex(
-      (obj) => obj.lessId == data.lessId
+      (obj) => obj.less_id == data.less_id
     );
     if (index > -1) {
       this.lessonValue[index] = data;
@@ -105,5 +112,23 @@ export class UnittestComponent {
     }
 
     console.log(this.lessonValue);
+  }
+  checkOut() {
+    this.dialog.nativeElement.style.display = 'none';
+    this.authService.checkOut();
+  }
+  async onSubmit(): Promise<void> {
+    this.isLoad = true;
+    const res = await this.authService.sendLesson(this.lessonValue);
+    console.log(res);
+    const updateStatus = await this.authService.updateStatus(
+      this.lessonValue[0].user_email!
+    );
+    setTimeout(() => {
+      this.isLoad = !this.isLoad;
+      if (res && !this.isLoad && updateStatus) {
+        this.dialog.nativeElement.showModal();
+      }
+    }, 2000);
   }
 }

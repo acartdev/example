@@ -5,10 +5,7 @@
   <div
     class="flex md:flex-row-reverse items-start flex-col-reverse justify-end md:justify-end w-full gap-4 mt-3"
   >
-    <button
-      onclick="my_modal_5.showModal()"
-      class="btn btn-sm btn-info text-white"
-    >
+    <button (click)="subMit.emit()" class="btn btn-sm btn-info text-white">
       ยืนยันส่งคำตอบ
     </button>
     <button (click)="repage.emit(1)" class="btn btn-warning btn-sm text-white">

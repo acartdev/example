@@ -1,8 +1,14 @@
-<main class="flex h-screen w-100 items-center justify-center bg-base-200 px-5">
+<div *ngIf="isLoad" class="w-full h-screen grid place-content-center">
+  <span class="loading loading-infinity loading-lg"></span>
+</div>
+<main
+  *ngIf="!isLoad"
+  class="flex h-screen w-100 items-center justify-center bg-base-200 px-5"
+>
   <div
     class="rounded-xl justify-start items-center p-8 shadow-xl bg-base-100 flex flex-col w-96 h-auto text-white"
   >
-    <mat-icon class="scale-[3] my-5"> </mat-icon>
+    <mat-icon class="scale-[3] my-5">integration_instructions</mat-icon>
     <p class="text-4xl font-bold font-[th-font]">แบบทดสอบ</p>
     <p class="text-md font-light font-[th-font] tracking-widest">
       สำหรับทดสอบDeveloper
@@ -28,16 +34,12 @@
               (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)
           }"
         />
+
         <div class="label">
           <span
-            *ngIf="loginForm.get('email')?.errors?.['required'] && (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)"
+            *ngIf="validateForm('email').errors && !resError?.password"
             class="label-text-alt text-error"
-            >กรุณากรอกอีเมล!</span
-          >
-          <span
-            *ngIf="loginForm.get('email')?.errors?.['email'] && (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)"
-            class="label-text-alt text-error"
-            >รูปแบบอีเมลไม่ถูกต้อง!</span
+            >{{ validateForm("email").message }}</span
           >
         </div>
       </label>
@@ -54,8 +56,8 @@
             class="input bg-white input-sm w-full max-w-xs"
             [ngClass]="{
               'input-error':
-                loginForm.get('passowrd')?.invalid &&
-                (loginForm.get('passowrd')?.touched ||
+                loginForm.get('password')?.invalid &&
+                (loginForm.get('password')?.touched ||
                   loginForm.get('password')?.dirty)
             }"
           />
@@ -66,15 +68,19 @@
         </div>
         <div class="label">
           <span
-            *ngIf="loginForm.get('password')?.errors?.['required'] && (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)"
+            *ngIf="validateForm('password').errors && resError?.status !== 401"
             class="label-text-alt text-error"
-            >กรุณากรอกรหัสผ่าน!</span
+            >{{ validateForm("password").message }}</span
           >
+          <span *ngIf="resError?.password" class="label-text-alt text-error">{{
+            validateForm("password").message
+          }}</span>
         </div>
       </label>
+
       <button
+        routerLink="desc"
         [disabled]="loginForm.invalid"
-        routerLink="/desc"
         type="submit"
         class="btn btn-info btn-sm text-xl w-full font-[th-font] text-white"
       >

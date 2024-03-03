@@ -10,4 +10,5 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class FinishPageComponent {
   @Output() repage = new EventEmitter<number>();
+  @Output() subMit = new EventEmitter<void>();
 }
