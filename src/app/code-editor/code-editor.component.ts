@@ -46,6 +46,7 @@ export class CodeEditorComponent {
     });
     this.editor = new EditorView({
       doc: this.oldVal?.text ? this.oldVal.text : '',
+
       extensions: [
         basicSetup,
         this.lang ? this.lang : javascript(),
@@ -123,7 +124,7 @@ int main() {
       .catch((err) => null);
     const code: LessonType = {
       user_email: profile,
-      less_id: this.lessId,
+      lesson_id: this.lessId,
       text:
         this.lessId === 3 || this.lessId === 5 ? this.text : this.getValue(),
       lang: this.lessId === 3 || this.lessId === 5 ? 'Text' : this.langValue,

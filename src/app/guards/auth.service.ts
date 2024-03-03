@@ -10,6 +10,8 @@ import { ValidateLogin } from '../login/res.error';
 import { SignIn, SignUp } from './dto/singIn.dto';
 import { Router } from '@angular/router';
 import { LessonType } from '../code-editor/lessType';
+import { LessonDetail } from './dto/lessonDetail.dto';
+import { Avgs } from './dto/avg.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -78,10 +80,66 @@ export class AuthService {
         });
     });
   }
+  async countLesson(email: string): Promise<number | undefined> {
+    const headers: HttpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.getToken()}`,
+    });
+    return new Promise((resolve, reject) => {
+      return this.http
+        .get<number | any>(`${environment.baseUrl}/lesson/${email}`, {
+          headers: headers,
+        })
+        .subscribe({
+          next: (value) => {
+            resolve(value);
+          },
+          error: (error: HttpErrorResponse) => reject(error.message),
+        });
+    });
+  }
+  async findeDetail(): Promise<LessonDetail[] | null> {
+    const headers: HttpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.getToken()}`,
+    });
+    return new Promise((resolve, reject) => {
+      return this.http
+        .get<LessonDetail[] | null>(`${environment.baseUrl}/lesson`, {
+          headers: headers,
+        })
+        .subscribe({
+          next: (value) => {
+            resolve(value);
+          },
+          error: (error: HttpErrorResponse) => reject(error.message),
+        });
+    });
+  }
+  async getAvg(): Promise<Avgs | undefined> {
+    const headers: HttpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.getToken()}`,
+    });
+    return new Promise((resolve, reject) => {
+      return this.http
+        .get<Avgs>(`${environment.baseUrl}/lesson/avg`, {
+          headers: headers,
+        })
+        .subscribe({
+          next: (value) => {
+            resolve(value);
+          },
+          error: (error: HttpErrorResponse) => reject(error.message),
+        });
+    });
+  }
+
   checkOut(): void {
     localStorage.clear();
     this.router.navigate(['/']);
   }
+
   async sigUp(signUp: SignUp): Promise<string | ValidateLogin> {
     return new Promise((resolve, reject) => {
       return this.http

@@ -98,12 +98,12 @@ export class UnittestComponent {
     // console.log(this.count);
   }
   getLessonId(id: number): LessonType {
-    const index = this.lessonValue.findIndex((obj) => obj.less_id == id);
+    const index = this.lessonValue.findIndex((obj) => obj.lesson_id == id);
     return this.lessonValue[index];
   }
   saveDataToStore(data: LessonType) {
     const index = this.lessonValue.findIndex(
-      (obj) => obj.less_id == data.less_id
+      (obj) => obj.lesson_id == data.lesson_id
     );
     if (index > -1) {
       this.lessonValue[index] = data;

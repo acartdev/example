@@ -37,6 +37,7 @@ export const routes: Routes = [
     component: UnittestComponent,
     children: [{ path: '', component: LessonOneComponent }],
   },
+  { path: 'detail:email', component: UnittestComponent },
   {
     path: 'admin',
     component: AdminComponent,

@@ -1,1 +1,16 @@
-<p>exist works!</p>
+<main class="w-full h-screen flex flex-col px-6 items-center py-20">
+  <div class="py-16">
+    <mat-icon class="scale-[5] md:scale-[7] text-success"
+      >check_circle</mat-icon
+    >
+  </div>
+  <p class="text-xl font-[th-font] text-white md:text-3xl">
+    คุณได้ทำแบบทดสอบครบแล้ว!!
+  </p>
+  <p class="font-[th-font] text-lg">ตอบไปทั้งหมด {{ counts }} /5</p>
+  <div class="flex mt-5">
+    <button (click)="checkOut()" class="btn btn-info text-white btn-md text-lg">
+      ออกจากระบบ
+    </button>
+  </div>
+</main>
