@@ -49,8 +49,6 @@ export class RegisterComponent {
       .sigUp(this.regisForm.value)
       .then((value) => value)
       .catch((error) => {
-        console.log(error);
-
         this.resError = error;
       });
     this.isLoad = false;

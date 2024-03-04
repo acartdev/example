@@ -38,13 +38,15 @@ export class CodeEditorComponent {
   text!: string;
   lang: any;
   @Output() isload = new EventEmitter<boolean>();
-  langValue: string = 'JavaScript';
+  langValue?: string = 'JavaScript';
 
   ngOnInit(): void {
     setTimeout(() => {
-      this.langValue = this.oldVal?.lang!;
+      if (this.oldVal?.lang) {
+        this.langValue = this.oldVal?.lang;
+      }
       if (this.readonly) {
-        this.reLang(this.oldVal!.lang);
+        this.reLang(this.oldVal?.lang!);
       }
       this.text = this.oldVal?.text ? this.oldVal.text : '';
       const fixedHeightEditor = EditorView.theme({
@@ -101,7 +103,7 @@ int main() {
     };
     toggle(this.editor);
   }
-  reLang(lang: string): void {
+  reLang(lang: string | null): void {
     switch (lang) {
       case 'JavaSctipt':
         this.lang = javascript();

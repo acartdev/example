@@ -102,8 +102,6 @@ export class UnittestComponent {
     },
   ];
   onChildClick(action: string) {
-    // console.log(this.count);
-
     if (action === 'next') {
       this.count += 1;
       if (this.count >= 6) {
@@ -118,7 +116,6 @@ export class UnittestComponent {
   }
   async ngOnInit(): Promise<void> {
     this.currentPath = this.loaction.snapshot.url[0].path;
-    console.log(this.currentPath);
 
     await this.getEmail();
     this.isLoad = true;
@@ -130,7 +127,7 @@ export class UnittestComponent {
           return value;
         });
     }
-    // console.log(this.lessonValue);
+
     this.count = 1;
     this.isLoad = !this.isLoad;
   }
@@ -145,7 +142,6 @@ export class UnittestComponent {
   }
   rePage(page: number) {
     this.count = page;
-    // console.log(this.count);
   }
   saveDataToStore(data: LessonType) {
     const index = this.lessonValue!.findIndex(
@@ -156,8 +152,6 @@ export class UnittestComponent {
     } else {
       this.lessonValue?.push(data);
     }
-
-    // console.log(this.lessonValue);
   }
   findData(id: number): LessonType | undefined {
     return this.lessonValue?.find((value) => value.lesson_id == id);
@@ -169,7 +163,7 @@ export class UnittestComponent {
   async onSubmit(): Promise<void> {
     this.isLoad = true;
     const res = await this.authService.sendLesson(this.lessonValue!);
-    console.log(res);
+
     const updateStatus = await this.authService.updateStatus(
       this.lessonValue![0].user_email!
     );
