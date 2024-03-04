@@ -164,7 +164,6 @@ export class AuthService {
         .post(`${environment.baseUrl}/users/signUp`, signUp)
         .subscribe({
           next: (res: any) => {
-            this.setToken(res.access_token);
             resolve(res);
           },
           error: (err: HttpErrorResponse) => {
