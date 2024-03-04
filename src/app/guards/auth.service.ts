@@ -31,7 +31,7 @@ export class AuthService {
               if (value?.sub.role === 'admin') {
                 this.router.navigate(['/admin']);
               } else {
-                this.router.navigate(['/desc']);
+                this.router.navigate(['/']);
               }
             });
           },
