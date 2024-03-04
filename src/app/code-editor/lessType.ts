@@ -1,5 +1,6 @@
 export interface LessonType {
-  lessId: number;
+  user_email: string | null;
+  lesson_id: number;
   text: string;
   lang: string;
 }

@@ -9,6 +9,8 @@ import {
 } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '../guards/auth.service';
+import { ValidateLogin } from '../login/res.error';
 
 @Component({
   selector: 'app-register',
@@ -26,17 +28,40 @@ import { RouterLink } from '@angular/router';
 })
 export class RegisterComponent {
   regisForm!: FormGroup;
-  constructor(private formBuilder: FormBuilder) {}
+  resError?: ValidateLogin | null;
+  isLoad: boolean = false;
+  showToast: boolean = false;
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService
+  ) {}
   ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
     this.regisForm = this.formBuilder.group({
       name: new FormControl(null, Validators.required),
       email: new FormControl(null, [Validators.email, Validators.required]),
       password: new FormControl(null, Validators.required),
     });
   }
-  onSubmit(): void {}
+  async onSubmit(): Promise<void> {
+    this.resError = null;
+    this.isLoad = true;
+    const res = await this.authService
+      .sigUp(this.regisForm.value)
+      .then((value) => value)
+      .catch((error) => {
+        console.log(error);
+
+        this.resError = error;
+      });
+    this.isLoad = false;
+    if (res && !this.isLoad) {
+      this.regisForm.reset();
+      this.showToast = true;
+      setTimeout(() => {
+        this.showToast = false;
+      }, 3000);
+    }
+  }
 
   passwordType = 'password';
   eyeIcon = 'visibility';
