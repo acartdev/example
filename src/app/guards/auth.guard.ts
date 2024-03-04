@@ -8,6 +8,9 @@ export const authGuard: CanActivateFn = async (route, state) => {
   const requiredRole = route.data['requiredRole'];
   const checkProfile = await authService.checkProfile();
   const checkRole = await authService.hasRole(requiredRole);
+  if (authService.isLogin()) {
+    return router.navigate(['/login']);
+  }
   return Promise.all([checkProfile, checkRole, authService.isLogin()])
     .then(([profile, hasRole, loggin]) => {
       if (profile && hasRole && loggin && profile?.sub.isActive === false) {
@@ -15,13 +18,11 @@ export const authGuard: CanActivateFn = async (route, state) => {
       } else if (profile?.sub.isActive) {
         return router.createUrlTree(['/exist']);
       } else if (route.url[0].path === 'detail' && !hasRole) {
-        console.log();
-
         return router.createUrlTree(['/desc']);
       }
-      return router.createUrlTree(['/']);
+      return router.createUrlTree(['/login']);
     })
     .catch((error) => {
-      return router.createUrlTree(['/']);
+      return router.createUrlTree(['/login']);
     });
 };
