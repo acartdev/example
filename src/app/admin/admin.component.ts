@@ -62,6 +62,7 @@ export class AdminComponent {
             items.avgtime = +items.avgtime.toFixed(2).toString().split('.')[1];
             this.time = 'นาที';
           } else {
+            items.avgtime = parseFloat(items.avgtime.toString()).toFixed(2);
             this.time = 'ชั่วโมง';
           }
 

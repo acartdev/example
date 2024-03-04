@@ -3,6 +3,6 @@ export interface LessonDetail {
   name: string;
   create_at: Date | string;
   send_at: Date | string;
-  avgtime: number;
+  avgtime: number | string;
   counter: number;
 }
