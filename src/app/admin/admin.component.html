@@ -55,7 +55,7 @@
 
       <div class="stat place-items-center">
         <div class="stat-title">เวลาในการทำเฉลี่ย</div>
-        <div class="stat-value">{{ sum ? sum : 0 }}</div>
+        <div class="stat-value">{{ sum ? sum.toFixed(2) : 0 }}</div>
         <div class="stat-desc text-info">{{ time }}</div>
       </div>
     </div>
