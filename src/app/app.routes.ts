@@ -11,7 +11,7 @@ import { ExistComponent } from './exist/exist.component';
 import { existGuard } from './guards/exist.guard';
 
 export const routes: Routes = [
-  { path: '', component: LoginComponent, canActivate: [logginGuard] },
+  { path: 'login', component: LoginComponent, canActivate: [logginGuard] },
   {
     path: 'register',
     component: RegisterComponent,

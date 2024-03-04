@@ -64,7 +64,7 @@ export class AuthService {
         });
     });
   }
-  async getLessonDetail(email: string): Promise<LessonType[] > {
+  async getLessonDetail(email: string): Promise<LessonType[]> {
     const headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: `Bearer ${this.getToken()}`,
@@ -191,11 +191,7 @@ export class AuthService {
     return null;
   }
   isLogin(): boolean {
-    if (this.getToken() === undefined) {
-      return false;
-    } else {
-      return true;
-    }
+    return !!this.getToken();
   }
   async getProfile(token: string): Promise<Profile | null> {
     const headers: HttpHeaders = new HttpHeaders({
