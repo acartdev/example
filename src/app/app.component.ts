@@ -28,21 +28,28 @@ export class AppComponent {
       if (events instanceof NavigationError) {
         const islogin = this.authService.isLogin();
         console.log(islogin);
-        const token = this.authService.getToken();
-        if (token) {
-          const profile = await this.authService
-            .getProfile(token)
-            .then((value) => value)
-            .catch((e) => null);
-          if (profile?.sub.role === 'user' && profile.sub.isActive !== true) {
-            this.router.navigate(['/desc']);
-          } else if (
-            profile?.sub.role === 'user' &&
-            profile.sub.isActive === true
-          ) {
-            this.router.navigate(['/exist']);
-          } else if (profile?.sub.role === 'admin') {
-            this.router.navigate(['/admin']);
+
+        if (!islogin) {
+          this.router.navigate(['/']);
+        } else {
+          const token = this.authService.getToken();
+          if (token) {
+            const profile = await this.authService
+              .getProfile(token)
+              .then((value) => value)
+              .catch((e) => null);
+            if (profile?.sub.role === 'user' && profile.sub.isActive !== true) {
+              this.router.navigate(['/desc']);
+            } else if (
+              profile?.sub.role === 'user' &&
+              profile.sub.isActive === true
+            ) {
+              this.router.navigate(['/exist']);
+            } else if (profile?.sub.role === 'admin') {
+              this.router.navigate(['/admin']);
+            }
+          } else {
+            this.router.navigate(['/']);
           }
         }
       }
