@@ -2,8 +2,6 @@
   base = "/itopPlus"
   command = "npm run build:prod"
   publish = "dist/browser"
-[settings]
-  base = "/itopPlus"
 
 [[redirects]]
   from = "/*"
