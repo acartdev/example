@@ -26,7 +26,10 @@ export class AppComponent {
   ngOnInit(): void {
     this.router.events.subscribe(async (events) => {
       if (events instanceof NavigationError) {
-        if (!this.authService.isLogin()) {
+        const islogin = this.authService.isLogin();
+        console.log(islogin);
+
+        if (!islogin) {
           this.router.navigate(['/']);
         } else {
           const token = this.authService.getToken();
@@ -45,8 +48,6 @@ export class AppComponent {
             } else if (profile?.sub.role === 'admin') {
               this.router.navigate(['/admin']);
             }
-          } else {
-            this.router.navigate(['/']);
           }
         }
       }
