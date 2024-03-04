@@ -1,0 +1,11 @@
+[build]
+  base = "/itopPlus"
+  command = "npm run build:prod"
+  publish = "dist/browser"
+[settings]
+  base = "/itopPlus"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
