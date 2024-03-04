@@ -23,8 +23,16 @@
       </p>
       <p class="text-xs lg:text-md">
         เวลาในการทำเฉลี่ย
-        {{ lessonDetail?.avgtime }}
-        {{ time }}
+        {{
+          lessonDetail!.avgtime > 0 && lessonDetail!.avgtime < 1
+            ? lessonDetail!.avgtime!.toString()!.split(".")[1].substring(0, 2)
+            : lessonDetail!.avgtime.toString().substring(0, 4)
+        }}
+        {{
+          lessonDetail?.avgtime! > 0 && lessonDetail?.avgtime! < 1
+            ? "นาที"
+            : "ชั่วโมง"
+        }}
       </p>
     </div>
   </div>
