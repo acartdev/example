@@ -2,6 +2,7 @@
   <span class="loading loading-infinity loading-lg"></span>
 </div>
 <main
+  *ngIf="!isLoad"
   class="h-full sm:h-screen w-full bg-base-200 py-16 flex justify-between md:block"
 >
   <div class="flex md:justify-center justify-start sm:px-10">
@@ -51,6 +52,7 @@
       [output]="items.output"
     ></app-lesson-one>
     } }
+
     <app-detail-exit
       *ngIf="count === 6 && currentPath === 'detail'"
       (repage)="rePage($event)"

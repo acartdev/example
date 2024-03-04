@@ -48,7 +48,7 @@ export class CodeEditorComponent {
       }
       this.text = this.oldVal?.text ? this.oldVal.text : '';
       const fixedHeightEditor = EditorView.theme({
-        '&': { height: '17rem', width: '100%' },
+        '&': { height: '17rem', width: '110%' },
         '.cm-scroller': { overflow: 'auto' },
       });
       this.editor = new EditorView({

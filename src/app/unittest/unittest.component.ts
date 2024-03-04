@@ -1,6 +1,7 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import {
   ActivatedRoute,
+  Router,
   RouterOutlet,
   UrlSegment,
   UrlTree,
@@ -37,6 +38,7 @@ export class UnittestComponent {
   constructor(
     private authService: AuthService,
     private router: ActivatedRoute,
+    private route: Router,
     private loaction: ActivatedRoute
   ) {}
   @ViewChild('my_modal_5', { static: true }) dialog!: ElementRef;
@@ -111,6 +113,7 @@ export class UnittestComponent {
       this.count -= 1;
       if (this.count <= 1) {
         this.count = 1;
+        this.route.navigate(['/desc']);
       }
     }
   }
