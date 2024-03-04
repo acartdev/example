@@ -6,12 +6,12 @@ import { Profile } from './profile.dto';
 export const logginGuard: CanActivateFn = async (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
+  const islogin = authService.isLogin();
 
-  if (authService.isLogin()) {
+  if (!islogin) {
+    console.log('take');
     return true;
   } else {
-    console.log('take');
-
     const profile: Profile | null = await authService
       .checkProfile()
       .then((value) => value)
