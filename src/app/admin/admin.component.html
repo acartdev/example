@@ -30,7 +30,7 @@
     <div class="w-full lg:w-8/12 flex flex-col gap-4">
       @if(lessonDetail!.length > 0){ @for( lesson of lessonDetail;track lesson
       ){
-      <app-card [lessonDetail]="lesson"></app-card>
+      <app-card [lessonDetail]="lesson" [time]="time"></app-card>
       } }@else {
       <p class="text-center text-xl">ไม่พบการทำแบบทดสอบ</p>
       }
@@ -56,7 +56,7 @@
       <div class="stat place-items-center">
         <div class="stat-title">เวลาในการทำเฉลี่ย</div>
         <div class="stat-value">{{ sum ? sum : 0 }}</div>
-        <div class="stat-desc text-info">ชั่วโมง</div>
+        <div class="stat-desc text-info">{{ time }}</div>
       </div>
     </div>
   </div>

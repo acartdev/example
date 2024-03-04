@@ -37,13 +37,11 @@ export class CodeEditorComponent {
   editor!: EditorView;
   text!: string;
   lang: any;
-  isLoad: boolean = false;
+  @Output() isload = new EventEmitter<boolean>();
   langValue: string = 'JavaScript';
 
   ngOnInit(): void {
-    this.isLoad = true;
     setTimeout(() => {
-      console.log(this.oldVal);
       this.langValue = this.oldVal?.lang!;
       if (this.readonly) {
         this.reLang(this.oldVal!.lang);
@@ -65,8 +63,8 @@ export class CodeEditorComponent {
         ],
         parent: this.codeMirrorElement.nativeElement,
       });
-    }, 120);
-    this.isLoad = !this.isLoad;
+      this.isload.emit(false);
+    }, 500);
   }
 
   getLang(e: any) {

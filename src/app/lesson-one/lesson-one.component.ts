@@ -21,6 +21,7 @@ export class LessonOneComponent {
   @Input() oldValues?: LessonType;
   @Input() readonly!: boolean;
   @Input() user_email!: string;
+  isLoad: boolean = false;
 
   @Output() lesson = new EventEmitter<LessonType>();
   saveData(data: LessonType) {
@@ -28,5 +29,8 @@ export class LessonOneComponent {
   }
   onChildClick(action: string) {
     this.perPage.emit(action);
+  }
+  isLoadProcess(load: boolean) {
+    this.isLoad = load;
   }
 }

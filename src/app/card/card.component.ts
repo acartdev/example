@@ -11,6 +11,7 @@ import { Router, RouterLink, RouterModule } from '@angular/router';
 })
 export class CardComponent {
   constructor(private router: Router) {}
+  @Input() time?: string;
   @Input() lessonDetail?: LessonDetail | null;
   seeDetail(email: string) {
     this.router.navigate([`/detail/${email}`]);

@@ -20,7 +20,7 @@ export class AdminComponent {
   avg?: Avgs | null;
   sum: number = 0;
   lessonDetail?: LessonDetail[] | null;
-
+  time?: string;
   async ngOnInit(): Promise<void> {
     let len: number | undefined = 0;
     this.avg = await this.authService
@@ -56,6 +56,15 @@ export class AdminComponent {
             }
           );
 
+          if (+items.avgtime >= 0 && +items.avgtime < 1) {
+            items.avgtime = parseFloat(items.avgtime.toString());
+
+            items.avgtime = +items.avgtime.toFixed(2).toString().split('.')[1];
+            this.time = 'นาที';
+          } else {
+            this.time = 'ชั่วโมง';
+          }
+
           items.create_at = create_date + ' เวลา ' + create_time;
           items.send_at = send_date + ' เวลา ' + send_time;
           return items;
@@ -63,7 +72,14 @@ export class AdminComponent {
       })
       .catch(() => null);
     this.sum = this.sum / len;
+    if (+this.sum >= 0 && +this.sum < 1) {
+      this.sum = parseFloat(this.sum.toString());
 
+      this.sum = +this.sum.toFixed(2).toString().split('.')[1];
+      this.time = 'นาที';
+    } else {
+      this.time = 'ชั่วโมง';
+    }
     this.isLoad = !this.isLoad;
     console.log(this.lessonDetail);
   }
