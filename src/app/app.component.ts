@@ -21,38 +21,36 @@ import { AuthService } from './guards/auth.service';
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor() {}
   title = 'example';
-  ngOnInit(): void {
-    this.router.events.subscribe(async (events) => {
-      if (events instanceof NavigationError) {
-        const islogin = this.authService.isLogin();
-        console.log(islogin);
-
-        if (!islogin) {
-          this.router.navigate(['/']);
-        } else {
-          const token = this.authService.getToken();
-          if (token) {
-            const profile = await this.authService
-              .getProfile(token)
-              .then((value) => value)
-              .catch((e) => null);
-            if (profile?.sub.role === 'user' && profile.sub.isActive !== true) {
-              this.router.navigate(['/desc']);
-            } else if (
-              profile?.sub.role === 'user' &&
-              profile.sub.isActive === true
-            ) {
-              this.router.navigate(['/exist']);
-            } else if (profile?.sub.role === 'admin') {
-              this.router.navigate(['/admin']);
-            }
-          } else {
-            this.router.navigate(['/']);
-          }
-        }
-      }
-    });
-  }
+  // ngOnInit(): void {
+  //   this.router.events.subscribe(async (events) => {
+  //     if (events instanceof NavigationError) {
+  //       const islogin = this.authService.isLogin();
+  //       if (!islogin) {
+  //         this.router.navigate(['/']);
+  //       } else {
+  //         const token = this.authService.getToken();
+  //         if (token) {
+  //           const profile = await this.authService
+  //             .getProfile(token)
+  //             .then((value) => value)
+  //             .catch((e) => null);
+  //           if (profile?.sub.role === 'user' && profile.sub.isActive !== true) {
+  //             this.router.navigate(['/desc']);
+  //           } else if (
+  //             profile?.sub.role === 'user' &&
+  //             profile.sub.isActive === true
+  //           ) {
+  //             this.router.navigate(['/exist']);
+  //           } else if (profile?.sub.role === 'admin') {
+  //             this.router.navigate(['/admin']);
+  //           }
+  //         } else {
+  //           this.router.navigate(['/']);
+  //         }
+  //       }
+  //     }
+  //   });
+  // }
 }
