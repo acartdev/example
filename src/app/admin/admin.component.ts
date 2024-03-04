@@ -81,7 +81,6 @@ export class AdminComponent {
       this.time = 'ชั่วโมง';
     }
     this.isLoad = !this.isLoad;
-    console.log(this.lessonDetail);
   }
   checkOut() {
     this.authService.checkOut();

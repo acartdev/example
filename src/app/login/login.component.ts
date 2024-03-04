@@ -64,7 +64,6 @@ export class LoginComponent {
     let errors: string | null = null;
     if (this.loginForm.get(field) && this.loginForm.get(field)?.errors) {
       errors = Object.keys(this.loginForm.get(field)!.errors!)[0];
-      // console.log(errors);
     }
 
     if (

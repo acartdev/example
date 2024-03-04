@@ -27,7 +27,6 @@ export class ExistComponent {
       .catch(() => undefined);
     if (!email) return undefined;
     return await this.authService.countLesson(email).then((value) => {
-      console.log(value);
       return value;
     });
   }
