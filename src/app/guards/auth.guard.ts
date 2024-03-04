@@ -17,7 +17,8 @@ export const authGuard: CanActivateFn = async (route, state) => {
         return true;
       } else if (profile?.sub.isActive) {
         return router.createUrlTree(['/exist']);
-      } else if (route.url[0].path === 'detail' && !hasRole) {
+      }
+      if (route.url[0].path === 'detail' && !hasRole) {
         return router.createUrlTree(['/']);
       }
       return router.createUrlTree(['/login']);
