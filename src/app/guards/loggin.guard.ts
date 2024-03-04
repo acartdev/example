@@ -7,9 +7,11 @@ export const logginGuard: CanActivateFn = async (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  if (!authService.isLogin()) {
+  if (authService.isLogin()) {
     return true;
   } else {
+    console.log('take');
+
     const profile: Profile | null = await authService
       .checkProfile()
       .then((value) => value)
