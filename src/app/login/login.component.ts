@@ -9,13 +9,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { JsonPipe, NgClass, NgIf } from '@angular/common';
-import {
-  HttpClient,
-  HttpClientModule,
-  HttpErrorResponse,
-} from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ValidateLogin } from './res.error';
-import { environment } from '../enviranment';
 import { AuthService } from '../guards/auth.service';
 @Component({
   selector: 'app-login',
@@ -41,9 +36,7 @@ export class LoginComponent {
   loginForm!: FormGroup;
   constructor(
     private formBuilder: FormBuilder,
-    private http: HttpClient,
-    private authService: AuthService,
-    private router: Router
+    private authService: AuthService
   ) {}
   eyeToggle(e: any): void {
     e.preventDefault();

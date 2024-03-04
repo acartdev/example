@@ -113,7 +113,7 @@ export class UnittestComponent {
       this.count -= 1;
       if (this.count <= 1) {
         this.count = 1;
-        this.route.navigate(['/desc']);
+        this.route.navigate(['/']);
       }
     }
   }

@@ -25,7 +25,7 @@ export const routes: Routes = [
   },
 
   {
-    path: 'desc',
+    path: '',
     component: DescComponent,
     canActivate: [authGuard],
     data: { requiredRole: 'user' },

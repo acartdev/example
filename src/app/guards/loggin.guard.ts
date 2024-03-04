@@ -7,7 +7,7 @@ export const logginGuard: CanActivateFn = async (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  if (authService.isLogin()) {
+  if (!authService.isLogin()) {
     return true;
   } else {
     const profile: Profile | null = await authService
@@ -20,7 +20,7 @@ export const logginGuard: CanActivateFn = async (route, state) => {
     if (profile?.sub.role === 'admin') {
       return router.createUrlTree(['/admin']);
     } else {
-      return router.createUrlTree(['/desc']);
+      return router.createUrlTree(['/']);
     }
   }
 };
