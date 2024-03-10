@@ -10,19 +10,20 @@ import { cpp } from '@codemirror/lang-cpp';
 import { javascript } from '@codemirror/lang-javascript';
 import { python } from '@codemirror/lang-python';
 import { EditorState, StateEffect } from '@codemirror/state';
-import { oneDark } from '@codemirror/theme-one-dark';
+import { oneDark } from "@codemirror/theme-one-dark";
 import { EditorView, basicSetup } from 'codemirror';
 import { LessonType } from './lessType';
 import { JsonPipe, NgClass, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../guards/auth.service';
 
+
 @Component({
   selector: 'app-code-editor',
-  standalone: true,
-  imports: [NgIf, NgClass, FormsModule, JsonPipe],
-  templateUrl: './code-editor.component.html',
-  styleUrl: './code-editor.component.css',
+  "standalone": true,
+  "imports": [NgIf, NgClass, FormsModule, JsonPipe],
+  "templateUrl": './code-editor.component.html',
+  "styleUrl": './code-editor.component.css',
 })
 export class CodeEditorComponent {
   constructor(private authService: AuthService) {}
